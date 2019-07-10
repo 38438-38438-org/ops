@@ -10,6 +10,7 @@ if [ -d /tmp/e2erun ] ; then
 fi
 mkdir /tmp/e2erun
 
+FAILED=0
 for test in $TESTS
 do
     cd $test
@@ -18,6 +19,11 @@ do
         echo "$test: PASSED"
     else
         echo "$test: FAILED"
+        FAILED=1
     fi
     cd ..
 done
+if [ $FAILED -eq 1 ] ; then
+    echo "Please see artifacts for failed tests."
+fi
+exit $FAILED

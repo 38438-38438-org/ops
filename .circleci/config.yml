@@ -22,3 +22,15 @@ jobs:
           command: |
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
             make test | tee ${TEST_RESULTS}/go-test.out
+      - run:
+          name: Run E2E tests
+          command: |
+            sudo apt-get install ruby
+            go build
+            go install
+            PATH=$PATH:/go/bin
+            cd e2e
+            ./run_e2e.sh
+      - store_artifacts:
+          path: /tmp/e2erun
+          destination: e2erun
